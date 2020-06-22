@@ -1,0 +1,17 @@
+<div class="wrapper form-wrapper">
+  <h1 class="header">
+    How Should We Change the Service?
+  </h1>
+   <%= simple_form_for @service do |f| %>
+    <%= f.input :name, placeholder: "Make it clear & catchy"%>
+    <%= f.input :description, placeholder: "Piffy is best" %>
+    <%= f.input :rate, placeholder: "Price per hour in 円" %>
+    <%= f.input :photo, as: :file %>
+    <%= f.input :service_type_list, collection: $service_type %>
+    <%= f.input :country_list, collection: $country %>
+    <div class="d-flex justify-content-between m-2 mt-4" >
+    <%= link_to "Return Home", root_path, class:"btn" %>
+    <%= f.button :submit, class:"btn btn-primary"%>
+    </div>
+  <% end %>
+</div>

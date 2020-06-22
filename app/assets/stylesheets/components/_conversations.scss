@@ -1,0 +1,25 @@
+.row.conversation {
+    padding: 1rem 2rem;
+    background: $white;
+    align-items: center;
+    color: $gray;
+    transition: $transition;
+    border-radius: $border-radius-sm;
+    margin: 0 auto 1rem auto;
+
+    &:hover {
+        background: $light-gray;
+        opacity: 0.9;
+    }
+
+    .sender {
+        width: 120px;
+
+    }
+
+    strong {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+}

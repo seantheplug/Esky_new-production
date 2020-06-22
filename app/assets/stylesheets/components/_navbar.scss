@@ -1,0 +1,50 @@
+.navbar {
+  height: $header-height;
+  justify-content: space-between;
+  margin: 0 auto;
+
+  .nav-link {
+    padding: 0.5em 1em !important;
+    border-radius: 0.5em;
+
+    &:hover {
+      background-color: darken($white, 4);
+    }
+  }
+  
+  .navbar-collapse {
+    flex-grow: 0;
+
+    &.show,
+    &.collapsing {
+      background: white;
+      padding: 1em;
+      text-align: center;
+      box-shadow: $box-shadow;
+
+      .dropdown-toggle {
+        display: none;
+      }
+
+      .dropdown-menu {
+        text-align: center;
+        display: block;
+      }
+    }
+  }
+
+  .navbar-brand {
+    font-weight: 600;
+    color: $primary;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+  }
+
+  .dropdown-toggle {
+    margin-left: 6px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

@@ -1,0 +1,25 @@
+.sidebar-list {
+    padding-left: 0;
+    list-style: none;
+}
+
+.sidebar-item {
+    padding: 10px 0;
+    font-size: 1rem;
+}
+
+.sidebar-link {
+    color: rgba($gray, 0.75);
+    text-decoration: none;
+
+    &:hover, &:focus {
+        color: rgba($gray, 0.5);
+        text-decoration: none;
+    }
+
+    &.active {
+        color: $gray;
+        font-weight: bold;
+        text-decoration: none;
+    }
+}

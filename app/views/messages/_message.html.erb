@@ -1,0 +1,11 @@
+<div class="message <%= 'current' if message.user == current_user %>">
+  <div class="d-flex flex-column">
+    <div class="d-flex flex-row">
+      <small class="mr-2"><strong><%= message.user.first_name + ' ' + message.user.last_name %></strong></small>
+      <small><%= message.created_at.getlocal.strftime('%H:%M %e %b') %></small>
+    </div>
+    <p class="mb-0">
+      <%= message.context %>
+    </p>
+  </div>
+</div>

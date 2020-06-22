@@ -1,0 +1,16 @@
+.form-inputs {
+    margin-bottom: 16px;
+
+    & > .form-group:not(:last-child) {
+        margin-bottom: 16px;
+    }
+}
+
+fieldset.boolean {
+    border: none;
+    padding: 0;
+
+    .uk-checkbox {
+        margin-right: 8px;
+    }
+}

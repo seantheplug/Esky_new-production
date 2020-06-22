@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-9 col-sm-12">
+      <%if user_signed_in?%>
+          <% if !@your_services.empty? %>
+            <h2>Your Services</h2>
+            <div class="d-flex flex-wrap">
+              <% @your_services.reverse.each do |service| %>
+                <div class="card-course">
+                  <%= render 'shared/card', service: service %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+      <%end%>
+    </div>
+    <div class="col-md-3 col-sm-12">
+      <h2 class="h5">Notifications</h2>
+      <div class="panel panel-default">
+        <div class="panel-body">
+            <%= link_to notifications_path do %>
+              <% if current_user.unread === 1 %>
+                You have <span id="num_of_unread"><%= current_user.unread %></span> notification
+              <% else %>
+                You have <span id="num_of_unread"><%= current_user.unread %></span> notifications
+              <% end %>
+            <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

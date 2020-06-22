@@ -1,0 +1,5 @@
+<%= simple_form_for [@service, @booking] do |f| %>
+  <%= f.input :date, as: :hidden, :input_html => { :value => Date.today.to_s } %>
+  <%= f.input :personalize_description, label: false, as: :text, placeholder: "If you have any personal requests for the provider, leave them here" %>
+  <%= f.button :submit, class: "btn btn-primary btn-block" %>
+<% end %>

@@ -1,0 +1,36 @@
+header {
+	&.dbr-hero-header {
+		background-image: url("https://unsplash.it/1920/1080/?random");
+		&:before {
+			content: "";
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background: rgba(61,67,78,0.7);
+			top:0;
+		}
+	}
+	a {
+		&:link, &:visited {	
+			letter-spacing: 2px;
+			display: inline-block;
+			height: 55px;
+			padding:0px 40px;
+			background: none;
+			border: 0;
+			border-radius: 5px;
+			color: white;
+			font-size: 15px;
+			line-height: 55px;
+			text-transform: uppercase;
+			cursor: pointer;
+			-moz-transition: background 0.6s;
+			-o-transition: background 0.6s;
+			-webkit-transition: background 0.6s;
+			transition: background 0.6s;
+		}
+		&:hover {
+			text-decoration: none;
+		}
+	}
+}

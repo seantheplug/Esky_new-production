@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <ul class="sidebar-list">
+        <li class="sidebar-item"><%= link_to "Payment Method", payment_method_path, class: "sidebar-link" %></li>
+        <li class="sidebar-item"><%= link_to "Payout Method", payout_method_path, class: "sidebar-link active" %></li>
+      </ul>
+    </div>
+    <div class="col-md-9">
+      <div class="panel-body">
+        <h2 class="mb-4 text-center">Link account</h2>
+        <p class="text-center">To receive payments, link your Stripe account with Esky.<br>
+           <strong>Ensure that you use the same email address for both accounts</strong></p>
+        <% if current_user.merchant_id.blank? %>
+          <%= link_to image_tag('stripe_button.png'), stripe_express_path, class: "stripe-connect" %>
+        <% else %>
+          <br/>
+          <div class="text-center">
+            <%= link_to "Express Dashboard", @login_link.url, class: "btn btn-primary" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

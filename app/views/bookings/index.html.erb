@@ -1,0 +1,131 @@
+<div class="container bookings">
+  <h2 class="mb-3 text-center">My Bookings</h1>
+  <!-- The Below, in conjunction with the updated Bookings and User models gives us only the pending bookings wherein current user is the provider -->
+  <%= form_tag bookings_path, method: :get do %>
+    <div class="form-group home--search mw-100">
+      <i class="fa fa-search search-icon"></i>
+      <%= text_field_tag :query,
+        params[:query],
+        class: "form-control",
+        placeholder: "Find a service"
+      %>
+      <%= submit_tag "Search", class: "btn btn-search" %>
+    </div>
+  <% end %>
+  <!-- provider bookings -->
+  <% if @provider_pending.present? || @provider_confirmed.present? %>
+    <div class="border-bottom pt-3">
+      <h2 class="h5">Provider bookings</h2>
+      <p>When someone books your service, it will show here</p>
+    </div>
+    <div class="mt-4">
+      <h2 class="course-status h5">
+      <i class="fas fa-circle indicator text-warning"></i>
+        Pending bookings
+      </h2>
+      <p>Bookings that require action from you</p>
+    </div>
+    <div class="row">
+      <div class="d-flex flex-wrap">
+        <% @provider_pending.each do |booking| %>
+          <div class="card-course">
+            <%= render 'shared/booking_card', booking: booking %>
+            <span class="card-date"><%= booking.date.strftime("%a %d %b")%></span>
+            <div class="d-flex mb-4 px-3">
+              <%= button_to 'Deny', booking_path(  booking, booking: { status: "cancelled" }), class: 'btn btn-link btn-block', method: "patch" %>
+              <%= button_to 'Confirm', booking_path(  booking, booking: { status: "confirmed" }), class: 'btn btn-primary btn-block', method: "patch" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <% @provider_confirmed.each do |booking| %>
+    <div class="mt-4">
+      <h2 class="course-status h5">
+      <i class="fas fa-circle indicator text-success"></i>
+        Confirmed bookings
+      </h2>
+      <p>You've confirmed these bookings for your services</p>
+    </div>
+    <div class="row">
+      <div class="d-flex flex-wrap">
+        <div class="card-course">
+          <%= render 'shared/booking_card', booking: booking %>
+          <span class="card-date"><%= booking.date.strftime("%a %d %b")
+          %></span>
+        </div>
+      </div>
+    </div>
+    <% end %>
+  <% end %>
+  <!-- client bookings -->
+  <% if @userbookings.present? %>
+    <div class="border-bottom pt-3">
+      <h2 class="h5">Client bookings</h2>
+      <p>Services you've booked will show here</p>
+    </div>
+    <!-- Pending Client Booking -->
+    <% if @userbookings.where(status: 'pending').present? %>
+      <div class="mt-4">
+        <h2 class="course-status h5">
+          <i class="fas fa-circle indicator text-warning"></i>
+          Pending services
+        </h2>
+        <p>Bookings that have not yet been confirmed by the provider</p>
+      </div>
+      <div class="row">
+        <div class="d-flex flex-wrap">
+          <%@userbookings.where(status: 'pending').each do |booking|%>
+            <div class="card-course">
+              <%= render 'shared/booking_card', booking: booking %>
+              <span class="card-date"><%= booking.date.strftime("%a %d %b")
+            %></span>
+            </div>
+          <%end%>
+        </div>
+      </div>
+    <% end %>
+    <!-- Confirmed Client Booking -->
+    <% if @userbookings.where(status: 'confirmed').present? %>
+      <div class="mt-4">
+        <h2 class="course-status h5">
+          <i class="fas fa-circle indicator text-success"></i>
+          Confirmed bookings
+        </h2>
+        <p>Services where the provider has confirmed your booking</p>
+      </div>
+      <div class="row">
+        <div class="d-flex flex-wrap">
+          <%@userbookings.where(status: 'confirmed').each do |booking|%>
+            <div class="card-course">
+              <%= render 'shared/booking_card', booking: booking %>
+              <span class="card-date"><%= booking.date.strftime("%a %d %b")
+            %></span>
+            </div>
+          <%end%>
+        </div>
+      </div>
+    <% end %>
+    <!-- Cancelled Client Booking -->
+    <% if @userbookings.where(status: 'cancel').present? %>
+      <div class="mt-4">
+        <h2 class="course-status h5">
+          <i class="fas fa-circle indicator text-danger"></i>
+          Cancelled bookings
+        </h2>
+        <p>Services that have been cancelled by you or the service provider</p>
+      </div>
+      <div class="row">
+        <div class="d-flex flex-wrap">
+          <%@userbookings.where(status: 'cancel').each do |booking|%>
+            <div class="card-course">
+              <%= render 'shared/booking_card', booking: booking %>
+              <span class="card-date"><%= booking.date.strftime("%a %d %b")
+            %></span>
+            </div>
+          <%end%>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

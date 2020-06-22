@@ -1,0 +1,30 @@
+.pagination_container {
+    text-align: center;
+    padding: 16px;
+
+    .disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 12px;
+
+        & > * {
+            padding: 5px;
+            min-width: 35px;
+            margin: 0.15rem;
+            border: 1px solid rgba($gray, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    .current {
+        font-style: normal;
+        background: rgba($gray, 0.05);
+    }
+}

@@ -1,0 +1,115 @@
+
+<div class="container course">
+  <% if @service.photo.attached? %>
+    <div class="banner secondary" style="background-image: linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.6)), url(<%= cl_image_path @service.photo.key, height: 300, width: 400, crop: :fill %>);">
+  <% else %>
+    <div class="banner secondary" style="background-image: linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.6)), url(<%= image_url("placeholder.jpg") %>);">
+  <% end %>
+      <h1 class="mb-2"><%= @service.name %></h1>
+      <div class="rating h5">          
+        <%if !@service.rating.nil?%> 
+          <% @service.rating.to_i.times do %>
+            <i class="fas fa-star full"></i>
+          <% end %>
+          <% (5 - @service.rating).to_i.times do %>
+            <i class="far fa-star empty"></i>
+          <% end %>
+        <%end%>
+      </div>
+    </div>
+
+  <div class="row py-4 border-bottom">
+    <div class="col-lg-8 col-md-12">
+      <h2 class="mb-3 h4">About this service</h2>
+      <p class="description mt-3 pb-4 border-bottom"><%= @service.description %></p>
+      <h2 class="h4 mt-4 mb-3">Location</h2>
+      <div class="pb-4 border-bottom">
+        <div
+          id="map"
+          style="width: 100%;
+          height: 300px;"
+          data-markers="<%= @marker.to_json %>"
+          data-mapbox-api-key="<%= ENV['MAPBOX_API_KEY'] %>"
+        >
+        </div>
+      </div>
+      <!-- REVIEW SECTION BELOW -->
+      <div class="py-4">
+        <% if !policy(@service).edit? %>
+          <h3 class="h4 mb-2">User reviews</h3>
+          <h4 class="h6">Leave a review</h4>
+          <%if user_signed_in? and @services_taken.include?(@service.name)%>
+            <div class="form-review mb-4">
+              <%= simple_form_for [@service, @review], html: { class: 'star-rating' } do |f| %>
+              <%= f.input :stars, as: :radio_buttons, collection: [[1, 'Awful'], [2, 'Bad'], [3, 'Decent'], [4, 'Good'], [5, 'Great']], label_method: :second, value_method: :first, label: "" %>
+              <%= f.input :description, as: :text, label: false, placeholder: 'What did you think of this service?'%>
+              <%= f.submit "Submit", class: "btn btn-primary" %>
+              <% end %>
+            </div>
+          <%end%>
+          <% if @service.reviews.empty? %>
+          <p>Be the first to leave a review!</p>
+          <% end %>
+          <% @service.reviews.each do |review| %>
+            <div class="card-review">
+              <div class="rating">
+                <% review.stars.times do %>
+                  <i class="fas fa-star full"></i>
+                <% end %>
+                <% (5 - review.stars).times do %>
+                  <i class="far fa-star empty"></i>
+                <% end %>
+              </div>
+              <p class="text-sub"><%= review.user.first_name %> <%= review.user.last_name %></p>
+              <p class="review-content"><%=review.description%></p>
+            </div>
+          <%end%>
+        <% end %>
+      </div>
+    </div>
+  <div class="col-lg-4 col-md-12">
+    <h2 class="mb-3 h4 text-center">Provider information</h2>
+    <div class="border px-3 py-4 mb-3">
+      <%= link_to user_path(@service_provider), class: "d-flex align-items-center justify-content-center" do  %>
+        <div class="avatar card-course-user">
+            <%= cl_image_tag @service_provider.avatar.key, crop: :fill, class:"avatar profile-avatar" %>
+        </div>
+        <span class="ml-2 text-dark"><%= @service_provider.first_name + ' ' + @service_provider.last_name %></span>
+      <% end %>
+      <small class="text-center d-block my-3">Need more information about this service?</small>
+      <% if current_user && current_user != @service_provider %>
+        <%= link_to conversations_path(sender_id: current_user.id, recipient_id: @service_provider.id), method: :post, class: "btn btn-outline-primary btn-block" do %>
+          <i class="fa fa-paper-plane mr-2"></i>
+          <%= 'Contact '+@service_provider.first_name %>
+        <% end %>
+      <% end %>
+    </div>
+    <!-- BELOW IS THE SIGN UP FORM -->
+    <% if !policy(@service).edit? %>
+      <div class="form-container">
+        <h2 class="h4 mb-3 text-center">Book this service</h2>
+        <div class="px-3 pt-1 pb-3 border">
+          <%= render './bookings/form' %>
+        </div>
+      </div>
+    <% else %>
+      <div class="edit-options">
+        <%= link_to edit_service_path(@service) do %>
+          <i class="fas fa-edit edit"></i>
+        <% end %>
+        <%= link_to service_path(@service), method: :delete do %>
+          <i class="fas fa-times delete"></i>
+        <% end %>
+      </div>
+    <% end %>
+    </div>
+  </div>
+  <h2 class="mt-5">Related Services</h2>
+  <div class="d-flex flex-wrap">
+    <% @related_services.each do |service| %>
+      <div class="card-course">
+        <%= render 'shared/card', service: service %>
+      </div>
+    <% end %>
+  </div>
+</div>

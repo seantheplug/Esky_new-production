@@ -1,0 +1,79 @@
+<div class="container profile border">
+
+  <% if @user == current_user %>
+    <%= link_to  "#exampleModal", "data-toggle": "modal" do %>
+      <%= cl_image_tag @user.avatar.key, height: 80, width: 80, crop: :fill, class:"avatar profile-avatar" %>
+    <% end %>
+  <% else %>
+    <%= cl_image_tag @user.avatar.key, height: 80, width: 80, crop: :fill, class:"avatar profile-avatar" %>
+  <% end %>
+  <h1 class="text-center mt-3 h2">
+    <%= @user.first_name%> <%= @user.last_name%>
+  </h1>
+  <% if current_user && current_user != @user %>
+    <%= link_to conversations_path(sender_id: current_user.id, recipient_id: @user.id), method: :post, class: "btn btn-primary mx-auto d-table mt-3" do %>
+      <i class="fa fa-paper-plane mr-2"></i>
+      <%= 'Message '+ @user.first_name %>
+    <% end %>
+  <% end %>
+  <p></p>
+  <h2 class="h4 mb-4">
+    <%= @user.first_name %>'s available services
+  </h2>
+
+  <% @services.each do |service|%>
+    <div class="row">
+      <div class="col-lg-4 col-md-12">
+        <div class="card-course">
+          <%= render 'shared/card', service: service %>
+        </div>
+      </div>
+      <div class="col-lg-8 col-md-12">
+        <div class="px-2">
+          <h6 class="font-weight-bold">Reviews for this service:</h6>
+          <% if service.reviews.present? %>
+            <% service.reviews.each do |review| %>
+              <div class="card-review">
+                <div class="rating">
+                  <% review.stars.times do %>
+                    <i class="fas fa-star full"></i>
+                  <% end %>
+                  <% (5 - review.stars).times do %>
+                    <i class="far fa-star empty"></i>
+                  <% end %>
+                </div>
+                <p class="text-sub"><%= review.user.first_name %> <%= review.user.last_name %></p>
+                <p class="review-content"><%=review.description%></p>
+              </div>
+            <%end%>
+          <% else %>
+            <p>No reviews yet!</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <%end%>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Would you like to Change your Profile Picture?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= simple_form_for(@user) do |f| %>
+          <%= f.input :avatar, as: :file %>
+      </div>
+      <div class="modal-footer  justify-content-between">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <%= f.submit "Update Image", class: "btn btn-warning" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

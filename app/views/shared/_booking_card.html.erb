@@ -1,0 +1,58 @@
+<%= cl_image_tag booking.service.photo.key, height: 300, width: 1200, crop: :fill %>
+<div class="card-course-infos booking-card">
+  <h2 class="h5">
+    <%= link_to booking_path(booking) do %>
+      <%= booking.service.name %>
+    <% end %>
+  </h2>
+  <div class="booking-info">
+    <p class="align-self-center">
+      <%= link_to booking.service.user, class: "text-body" do %>
+        <%= booking.service.user.first_name %> <%= booking.service.user.last_name %>
+      <% end %>
+      <i class="fa fa-exchange-alt mt-1 px-2"></i>
+      <%= link_to booking.user, class: "text-body" do %>
+        <%= booking.user.first_name %> <%= booking.user.last_name %>
+      <% end %>
+    </p>
+    <p><strong>Status</strong>
+      <% if booking.status == 'confirmed' %>
+        <span class="text-success">Confirmed</span>
+      <% elsif booking.status == 'cancel' %>
+        <span class="text-danger">Cancelled</span>
+      <% else %>
+        <span class="text-warning">Pending</span>
+      <% end %>
+    </p>
+    <p><strong>Date</strong> <%= booking.date.strftime("%A %d %b %Y") %></p>
+    <p><strong>Location</strong> <%= booking.service.location %></p>
+    <p class="text-center pt-2">
+      Notes to provider
+      <br>
+      <%= booking.personalize_description %>
+    </p>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Change booking date</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= simple_form_for(booking) do |f| %>
+          <%= f.input :date, as: :date %>
+      </div>
+      <div class="modal-footer  justify-content-between">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <%= f.submit "Update Date", class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

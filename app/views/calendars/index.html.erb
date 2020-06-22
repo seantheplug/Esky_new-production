@@ -1,0 +1,60 @@
+<div class="container">
+    <h2 class="text-center">Schedule</h2>
+    <p class="text-center">Your bookings grouped by service are shown here</p>
+    <% if !@your_services.blank? %>
+        <div class= "tag-form service-filter text-center">
+            <%= simple_form_for :q, url: provider_calendar_path, method: "GET" do |f| %>
+                <div class="form-group">
+                <p>Select your service</p>
+                <%= f.select :service_id, options_for_select(@your_services.collect {|u| [u.name, u.id]}, params[:service_id]), {}, {
+                    onchange: "$(this.form).submit()",
+                    class: "form-control"
+                } %>
+                </div>
+                <%= f.hidden_field :date, id: "start-date", value: params[:date] %>
+            <% end %>
+        </div>
+    <% end %>
+    <div id="calendar"></div>
+</div>
+
+<script src='http://fullcalendar.io/js/fullcalendar-2.1.1/lib/moment.min.js'></script>
+<script src='http://fullcalendar.io/js/fullcalendar-2.1.1/lib/jquery.min.js'></script>
+<script src="http://fullcalendar.io/js/fullcalendar-2.1.1/lib/jquery-ui.custom.min.js"></script>
+<script src='http://fullcalendar.io/js/fullcalendar-2.1.1/fullcalendar.min.js'></script>
+
+<script>
+    window.bookings = <%= raw @events.to_json %>;
+
+    function showBookings(data) {
+        return data.map(function (e) {
+            return{
+                name: e.first_name+" "+e.last_name,
+                start: e['date'],
+                end: e['date'],
+                avatar: e.image,
+                status: e.status
+            }
+        })
+    }
+
+    $('#calendar').fullCalendar({
+        header:{
+            left: 'title',
+            center:'',
+            right: 'prev,next'
+        },
+        defaultDate: $('#date').val(),
+        events: showBookings(bookings),
+        eventRender: function(event, element, view) {
+            // for the img src part to work take replace it with your own cloudinary cloud name like this src="https://res.cloudinary.com/"YOUR CLOUD NAME"/image/upload/c_fill/${event.avatar}"
+            return $(`
+                <a class="fc-day-grid-event fc-h-event fc-event fc-start fc-end">
+                <div class="fc-content ${event.status}">
+                    <span style="color:white;" class="fc-title"><img class="img-circle avatar" src="https://res.cloudinary.com/dj5t6aqhg/image/upload/c_fill/${event.avatar}">${event.name}, Status: ${event.status}</span> 
+                </div>
+                </a>
+            `);
+        }
+    });
+</script>

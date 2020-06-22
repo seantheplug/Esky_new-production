@@ -1,0 +1,7 @@
+<h1>This is a FORM to ADD a ##NEW## booking</h1>
+
+<%= simple_form_for [@service, @booking] do |f| %>
+  <%= f.input :date, as: :hidden, :input_html => { :value => Date.today.to_s } %>
+  <%= f.input :personalize_description, :as => :text, :input_html => { 'rows' => 5, 'cols' => 10 } , placeholder: "Let the Service Provider Know you personal requirement" %>
+  <%= f.submit %>
+<% end %>

@@ -1,0 +1,34 @@
+.service-filter {
+    .btn:hover,
+    .btn:focus {
+        .form-group {
+            color: $gray;
+            display: block;
+        }
+    }
+
+    .btn {
+        position: relative;
+
+        .form-group {
+            z-index: 5;
+            display: none;
+            position: absolute;
+            left: 0px;
+            top: 2.3rem;
+            min-width: 300px;
+            background: $white;
+            padding: 1rem 1.5rem;
+            box-shadow: $box-shadow;
+            border-radius: $border-radius-sm;
+
+            .form-check {
+                padding: 8px 1rem;
+            }
+        }
+    }
+
+    .btn {
+        margin-right: 6px;
+    }
+}

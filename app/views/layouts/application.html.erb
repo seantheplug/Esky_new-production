@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Esky - Your personal assistant</title>
+    <%= csrf_meta_tags %>
+    <%= action_cable_meta_tag %>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500&display=swap" rel="stylesheet">
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= action_cable_meta_tag %>
+  </head>
+  <body>
+    <% unless current_page?(new_user_session_path) || current_page?(new_user_registration_path) %>
+      <%= render 'shared/navbar' %>
+    <% end %>
+    <%= render 'shared/flashes' %>
+    <div class="app">
+      <%= yield %>
+    </div>
+
+    <% if current_user %>
+        <input type="hidden" id="user_id" value="<%= current_user.id %>">
+    <% end %>
+    
+    <%= javascript_include_tag 'application' %>
+    <%= javascript_pack_tag 'application' %>
+    <%= render 'shared/footer' %>
+  </body>
+</html>

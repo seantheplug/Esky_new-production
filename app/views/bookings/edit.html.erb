@@ -1,0 +1,9 @@
+<h1>This is a FORM to edit a ##EXISITING## booking</h1>
+
+<%= simple_form_for [@booking] do |f| %>  
+  <%= f.input :date, as: :string %>
+  <%= f.input :status, collection: ["confirmed", "pending", "cancel"]%>
+  <%= f.submit %>
+<% end %>
+
+<%= render 'form' %>

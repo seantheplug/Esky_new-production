@@ -1,0 +1,82 @@
+body {
+    height: calc(100vh - 80px);
+    background: #f8f8f8;
+}
+
+.app {
+    min-height: calc(100vh - 2 * #{$header-height})
+}
+
+h1,
+h2,
+h3 {
+    letter-spacing: -0.03rem;
+}
+
+p {
+    color: rgba($gray, 0.9);
+    line-height: 1.5;
+}
+
+label {
+    display: flex !important;
+    margin: 0 !important;
+}
+
+fieldset {
+    border: none;
+    border-radius: 16px;
+    padding: 16px 32px;
+
+    legend {
+        font-size: 120%;
+        font-weight: 600;
+    }
+}
+
+img:not(.dropdown-toggle) {
+    pointer-events: none;
+}
+
+.container {
+    padding: 2em 0;
+}
+
+.mw-md {
+    max-width: 768px;
+    margin: 0 auto;
+}
+
+abbr[title="required"] {
+    display: none;
+}
+
+.mw-sm {
+    max-width: 624px;
+    margin: 0 auto;
+}
+
+.my-auto {
+    margin: 0 auto;
+}
+
+.full-span-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.login {
+    background-image: asset-url('banner-home.jpg');
+    background-size: cover;
+}
+
+.text-small {
+    font-size: 80%;
+}
+
+.box-shadow {
+    box-shadow: $box-shadow;
+}

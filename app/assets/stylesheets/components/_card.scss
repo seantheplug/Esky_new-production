@@ -1,0 +1,102 @@
+.profile .card-course {
+  width: 100%;
+  margin: 0;
+}
+
+.card-course {
+  position: relative;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0px 3px 6px rgba($gray, 0.05);
+  border-radius: 3px;
+  border: 1px solid $light-gray;
+  margin: 15px;
+  width: calc(33% - 30px);
+  transition: $transition;
+
+  @media (max-width: 768px) {
+    width: calc(50% - 30px);
+  }
+
+  @media (max-width: 576px) {
+    width: calc(100% - 30px);
+  }
+
+  &:hover {
+    box-shadow: 0px 3px 6px rgba($gray, 0.2);
+  }
+
+  & > img {
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+    pointer-events: none;
+  }
+
+  .card-course-infos {
+    padding: 16px;
+    position: relative;
+    min-height: 175px;
+
+    .card-course-title > h2 {
+      display: flex;
+      a {
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .card-course-detail {
+      width: max-content;
+      display: inline;
+      opacity: 0.7;
+      font-size: 0.8rem;
+
+      &:not(:last-of-type) {
+        margin-right: 10px;
+      }
+
+      &.level {
+        padding: 2px 4px;
+        border: 1px solid;
+      }
+    }
+
+    .card-course-description {
+      line-height: 1.3rem;
+      max-height: 3.9rem;
+      overflow: hidden;
+      display: -webkit-box;
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+    }
+  }
+
+  .card-course-infos {  
+    .card-course-user {
+      display: flex;
+      align-items: center;
+
+      small {
+        color: $gray;
+        margin-left: 6px;
+      }
+    }
+  }
+
+  .card-date {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    background: rgba(0,0,0,0.3);
+    padding: 3px 8px;
+    border-radius: 0%;
+  }
+}
+

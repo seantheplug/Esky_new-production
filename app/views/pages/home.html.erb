@@ -1,0 +1,145 @@
+<div class="banner" style="background-image: linear-gradient(rgba(50,50,50,0.7),rgba(50,50,50,0.5)), url(<%= image_path('banner-home.jpg') %>);">
+  <div class="container">
+    <h1>Your personal assistant</h1>
+    <p class="mb-4">Work or get work done - post your tasks or earn money completing jobs. Connecting with others made easy with Esky</p>
+    <%= form_tag url_for(:controller => '/services', :action => 'index'), method: :get do %>
+        <div class="form-group home--search">
+          <i class="fa fa-search search-icon"></i>
+          <%= text_field_tag :query,
+              params[:query],
+              class: "form-control",
+              placeholder: "Search for a job or location, eg. 'hotel booking in Tokyo'"
+          %>
+          <%= submit_tag "Search", class: "btn btn-search" %>
+        </div>
+    <% end %>
+
+    <% if user_signed_in? %>
+      
+    <% else %>
+      <%= link_to "Sign Up", new_user_session_path, class:"btn btn-primary btn-lg px-4 mt-3" %>
+    <% end %>
+  </div>
+</div>
+
+<div class="container" style="padding: 8em 1em;">
+    <div class="row">
+        <div class="col-md-12">
+          <h2 class="headline text-center margin-top-75">
+            <strong class="headline-with-separator">Explore Esky by category</strong>
+          </h2>
+        </div>
+        <div class="col-md-12 text-center">
+          <div class="categories-boxes-container">
+            <a onclick='local_guides()' class="category-small-box" style="background-image: linear-gradient(rgba(50,50,50,0.7),rgba(50,50,50,0.5)), url(<%= image_path('dining.jpg') %>);">
+              <i class="fa fa-walking"></i>
+              <h4>Local guides</h4>
+            </a>
+            <a onclick='reservations()' class="category-small-box" style="background-image: linear-gradient(rgba(50,50,50,0.7),rgba(50,50,50,0.5)), url(<%= image_path('events.jpg') %>);">
+              <i class="fa fa-clipboard-list"></i>
+              <h4>Reservations</h4>
+            </a>
+            <a onclick='airport_pick_up()' class="category-small-box" style="background-image: linear-gradient(rgba(50,50,50,0.7),rgba(50,50,50,0.5)), url(<%= image_path('transport.jpg') %>);">
+              <i class="fa fa-car"></i>
+              <h4>Airport pickup</h4>
+            </a>
+            <a onclick='travel_arrangement()' class="category-small-box" style="background-image: linear-gradient(rgba(50,50,50,0.7),rgba(50,50,50,0.5)), url(<%= image_path('travel.jpg') %>);">
+              <i class="fa fa-plane"></i>
+              <h4>Travel arrangement</h4>
+            </a>
+            <a onclick='shopping()' class="category-small-box" style="background-image: linear-gradient(rgba(50,50,50,0.7),rgba(50,50,50,0.5)), url(<%= image_path('shopping.jpg') %>);">
+              <i class="fa fa-shopping-bag"></i>
+              <h4>Shopping</h4>
+            </a>
+            <a href="/services" class="category-small-box" style="background-image: linear-gradient(rgba(50,50,50,0.7),rgba(50,50,50,0.5)), url(<%= image_path('delivery.jpg') %>);">
+              <i class="fa fa-cube"></i>
+              <h4>Browse all</h4>
+            </a>
+          </div>
+        </div>
+    </div>
+</div>
+
+<section class="fullwidth py-5" data-background-color="#f9f9f9">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 pb-4" style="margin:0 auto">
+        <h3 class="headline text-center headline-extra-spacing">
+          <strong class="headline-with-separator">How it works</strong>
+          <span class="margin-top-25">Post about a task that you want done and Esky will connect you with people all around the world.</span>
+        </h3>
+      </div>
+    </div>
+    <div class="row icons-container">
+      <div class="col-md-4">
+        <div class="icon-box-2 with-line">
+          <i class="fa fa-user-friends"></i>
+          <h3>Connect with others</h3>
+          <p>Proin dapibus nisl ornare diam varius tempus. Aenean a quam luctus, finibus tellus ut, convallis eros sollicitudin.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="icon-box-2 with-line">
+          <i class="fa fa-comment-dots"></i>
+          <h3>Collaborate easily</h3>
+          <p>Maecenas pulvinar, risus in facilisis dignissim, quam nisi hendrerit nulla, id vestibulum metus nullam viverra purus.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="icon-box-2">
+          <i class="fa fa-money-check"></i>
+          <h3>Simple payments</h3>
+          <p>Faucibus ante, risus in porttitor tellus blandit et. Phasellus id vestibulum tincidunt metus lectus sollicitudin feugiat.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div style="display: none">
+  <%= simple_form_for :tag, url: services_path, method: "GET" do |f| %>
+    <div class="form-group">
+      <%= f.input :service_type, inline_label: "Service type", collection:  $service_type , as: :check_boxes, :input_html => { :class => "form-check-input" }, :item_wrapper_class => 'form-check' %>
+    </div>
+    <div class="mt-4">
+      <%= f.submit "Search", class: "btn btn-sm btn-primary filter_search" %>
+      <%= link_to "Reset", services_path, class: "btn btn-sm btn-secondary mr-3"  %>
+    </div>
+  <% end %>
+  </div>
+<div>
+<script>
+function getCheckboxByValue(v) {
+        var inputs = document.getElementsByTagName('input');
+        for (var i = 0; i < inputs.length; i++) {
+                if(inputs[i].type == "checkbox" && inputs[i].value == v) {
+                        return inputs[i];
+                }
+        }
+        return false;
+}
+
+function local_guides(){
+  getCheckboxByValue("Local guides").checked = true;
+  document.getElementsByClassName("filter_search")[0].click();
+}
+
+function reservations(){
+  getCheckboxByValue("Reservations").checked = true;
+  document.getElementsByClassName("filter_search")[0].click();
+}
+
+function airport_pick_up(){
+  getCheckboxByValue("Airport Pickup").checked = true;
+  document.getElementsByClassName("filter_search")[0].click();
+}
+
+function shopping(){
+  getCheckboxByValue("Shopping").checked = true;
+  document.getElementsByClassName("filter_search")[0].click();
+}
+
+function travel_arrangement(){
+  getCheckboxByValue("Travel Arrangement").checked = true;
+  document.getElementsByClassName("filter_search")[0].click();
+}
+</script>

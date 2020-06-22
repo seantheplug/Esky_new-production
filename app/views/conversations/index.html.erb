@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="text-center">Your Conversations</h2>
+      <div class="mw-md mt-4">
+        <% @conversations.each do |conversation| %>
+            <% other = current_user == conversation.sender ? conversation.recipient : conversation.sender %>
+            <%= link_to conversation_messages_path(conversation), class: "text-decoration-none", title: "Go to conversation" do %>
+              <div class="row conversation border">
+                <% if conversation.messages.any? %>
+                  <%= cl_image_tag other.avatar.key, crop: :fill, class:"avatar profile-avatar" %>
+                  <div class="d-flex flex-column ml-3 sender">
+                    <strong><%= other.first_name+' '+other.last_name%></strong>
+                    <small><%= conversation.messages.last.created_at.getlocal.strftime('%H:%M %e %b') %></small>
+                  </div>
+                  <div class="mt-2 w-100">
+                    <p class="mb-0"><%= conversation.messages.last.context %></p>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+.card-review {
+  padding: 15px 20px;
+  border: 1px solid #ddd;
+  border-radius: 0%;
+
+  .review-content {
+    margin-top: 5px;
+  }
+
+  &:not(:last-of-type) {
+    margin-bottom: 15px;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.rating {
+  color: $warning;
+}
+
+.review_stars {
+  display: block;
+
+  .form-check {
+    display: inline;
+
+    &:not(:last-child) {
+      margin-right: 1rem;
+    }
+
+    .form-check-label {
+      display: inline !important;
+    }
+  }
+}
