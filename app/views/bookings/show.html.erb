@@ -15,14 +15,6 @@
         <p><strong>Date</strong> <%= @booking.date.strftime("%A %d %b %Y") %></p>
         <p><strong>Location</strong> <%= @booking.service.location %></p>
         <p><strong>Client requirement</strong> <%= @booking.personalize_description %></p>
-        <div class="edit-options">
-          <%= link_to edit_booking_path(@booking) do %>
-            <i class="fas fa-edit edit"></i>
-          <% end %>
-          <%= link_to booking_path(@booking), method: :delete do %>
-            <i class="fas fa-times delete"></i>
-          <% end %>
-        </div>
       </div>
     </div>
     <div class="col-lg-6 col-md-12">
