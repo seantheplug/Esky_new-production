@@ -39,7 +39,7 @@ class ServicesController < ApplicationController
         @filter = [ current_service_type ]
         @filter.push(current_service_country).reject(&:blank?)
         @related_services = Service.tagged_with(@filter, :any => true)
-        @related_services = @related_services.where.not(id: params[:id])
+        @related_services = @related_services.where.not(id: params[:id]).first(3)
 
 
         @service_provider = @service.user
