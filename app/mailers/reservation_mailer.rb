@@ -3,6 +3,6 @@ class ReservationMailer < ApplicationMailer
     
       @recipient = customer
       @service = service
-      mail(to: @recipient.email, subject: "Enjoy You Service! 😘 💋")
+      mail(to: @recipient.email, subject: "Enjoy You Service!")
     end
   end

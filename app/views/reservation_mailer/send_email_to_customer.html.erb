@@ -1,9 +1,9 @@
 Hello! <%= @recipient.first_name %>
 <br/>
 <br/>
-Thanks for booking the "<%= @service.name %>" provided by "<%=@service.user.first_name%>" "<%=@service.user.last_name%>". 
+Thanks for booking the <%= @service.name %> provided by <%=@service.user.first_name%> <%=@service.user.last_name%>. 
 <br/>
-You booking is confirmed and You are charged "<%= @service.rate %>"円. We wish you enjoy the service!
+You booking is confirmed and You are charged <%= @service.rate %>円. We wish you enjoy the service!
 <br/>
 <br/>
 Esky Team.
