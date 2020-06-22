@@ -966,3 +966,7 @@ be a descendant of the grid when it is being dragged.
 	background-color: #409de5; /* default BACKGROUND color */
 	font-weight: normal; /* undo jqui's ui-widget-header bold */
 }
+
+.mapboxgl-ctrl-top-right{
+	display: none;
+}
