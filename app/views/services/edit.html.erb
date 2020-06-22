@@ -5,12 +5,13 @@
    <%= simple_form_for @service do |f| %>
     <%= f.input :name, placeholder: "Make it clear & catchy"%>
     <%= f.input :description, placeholder: "Piffy is best" %>
+    <%= f.input :location, placeholder: "Where would you like to provide the service?" %>
     <%= f.input :rate, placeholder: "Price per hour in 円" %>
-    <%= f.input :photo, as: :file %>
     <%= f.input :service_type_list, collection: $service_type %>
     <%= f.input :country_list, collection: $country %>
+    <%= f.input :photo, as: :file %>
     <div class="d-flex justify-content-between m-2 mt-4" >
-    <%= link_to "Return Home", root_path, class:"btn" %>
+    <%= link_to "Return Home", root_path, class:"btn btn-primary" %>
     <%= f.button :submit, class:"btn btn-primary"%>
     </div>
   <% end %>
