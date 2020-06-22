@@ -449,11 +449,11 @@ temporary rendered events).
 .fc-event {
 	position: relative; /* for resize handle and other inner positioning */
 	display: block; /* make the <a> tag block */
-	font-size: .85em;
+	font-size: .65em;
 	line-height: 1.3;
 	border-radius: 20px;
-	border: 1px solid black; /* default BORDER color */
-	background-color: black; /* default BACKGROUND color */
+	border: 1px solid #075fa3; /* default BORDER color */
+	background-color: #075fa3; /* default BACKGROUND color */
 	font-weight: normal; /* undo jqui's ui-widget-header bold */
 }
 
@@ -959,10 +959,10 @@ be a descendant of the grid when it is being dragged.
 .fc-content.pending {
 	position: relative; /* for resize handle and other inner positioning */
 	display: block; /* make the <a> tag block */
-	font-size: 1em;
+	font-size: 0.65em;
 	line-height: 1.3;
 	border-radius: 20px;
-	border: 1px solid royalblue; /* default BORDER color */
-	background-color: royalblue; /* default BACKGROUND color */
+	border: 1px solid #409de5; /* default BORDER color */
+	background-color: #409de5; /* default BACKGROUND color */
 	font-weight: normal; /* undo jqui's ui-widget-header bold */
 }
