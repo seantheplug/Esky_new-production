@@ -30,7 +30,7 @@
     <small class="d-block text-right"><%= service.created_at.strftime('%e %b') %></small>
     <%= link_to user_path(service.user) do  %>
       <div class="card-course-user">
-        <% if service.user.avatar.key.nil? %>
+        <% if service.user.avatar.key.nil? == false %>
           <%= cl_image_tag service.user.avatar.key, crop: :fill, class:"avatar small" %>
         <% else %>
           <%= image_tag("doug.jpg", class: "avatar small") %>
