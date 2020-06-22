@@ -1,5 +1,5 @@
 import "bootstrap";
-import 'jquery';
+import "jquery";
 
 
 import { initTooltipAvatar } from '../components/index';
