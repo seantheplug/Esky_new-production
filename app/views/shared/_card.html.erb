@@ -5,39 +5,40 @@
 <% end %>
 
 <div class="card-course-infos">
-    <div class="card-course-title">
-      <h2 class="h5">
-        <%= link_to service_path(service) do %>
-          <%= service.name %>
-        <% end %>
-      </h2>
+  <%= link_to user_path(service.user) do  %>
+    <div class="card-course-user mb-3">
+      <% if service.user.avatar.key.nil? == false %>
+        <%= cl_image_tag service.user.avatar.key, crop: :fill, class:"avatar small" %>
+      <% else %>
+        <%= image_tag("doug.jpg", class: "avatar small") %>
+      <% end %>
+      <small>
+        <%= service.user.first_name + ' ' + service.user.last_name %>
+      </small>
     </div>
-    <%if !service.rating.nil?%>
-      <div class="rating mb-2">
-        <small>
-          <% service.rating.to_i.times do %>
-            <i class="fas fa-star full"></i>
-          <% end %>
-          <% (5 - service.rating).to_i.times do %>
-            <i class="far fa-star empty"></i>
-          <% end %>
-        </small>
-      </div>
-    <%end%>
-    <p class="card-course-description">
-      <%= service.description %>
-    </p>
-    <small class="d-block text-right"><%= service.created_at.strftime('%e %b') %></small>
-    <%= link_to user_path(service.user) do  %>
-      <div class="card-course-user">
-        <% if service.user.avatar.key.nil? == false %>
-          <%= cl_image_tag service.user.avatar.key, crop: :fill, class:"avatar small" %>
-        <% else %>
-          <%= image_tag("doug.jpg", class: "avatar small") %>
+  <% end %>
+  <div class="card-course-title">
+    <h2 class="h5">
+      <%= link_to service_path(service) do %>
+        <%= service.name %>
+      <% end %>
+    </h2>
+  </div>
+  <%if !service.rating.nil?%>
+    <div class="rating mb-2">
+      <small>
+        <% service.rating.to_i.times do %>
+          <i class="fas fa-star full"></i>
         <% end %>
-        <small>
-          <%= service.user.first_name + ' ' + service.user.last_name %>
-        </small>
-      </div>
-    <% end %>
+        <% (5 - service.rating).to_i.times do %>
+          <i class="far fa-star empty"></i>
+        <% end %>
+      </small>
+    </div>
+  <%end%>
+  <p class="card-course-description">
+    <%= service.description %>
+  </p>
+  <span class="d-block text-right text-muted font-weight-bold">¥<%= service.rate %>/hr</span>
+  <small class="d-block text-right text-muted"><%= service.created_at.strftime('%e %b') %></small>
 </div>
