@@ -89,6 +89,10 @@
       <div class="form-container">
         <h2 class="h4 mb-3 text-center">Book this service</h2>
         <div class="px-3 pt-1 pb-3 border">
+          <div class="d-flex align-items-center mt-3 justify-content-center">
+            <small class="text-uppercase mr-2">Starting from</small>
+            <h3 class="h4 mb-0">¥<%= @service.rate %>/hr</h3>
+          </div>
           <%= render './bookings/form' %>
         </div>
       </div>
