@@ -35,8 +35,9 @@
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
               <%= link_to "Messages", conversations_path, :method => :get, class: "dropdown-item"%>
               <%= link_to "My Page", "/dashboard", :method => :get, class: "dropdown-item" %>
-              <%= link_to "Account setting", "/payment_method", :method => :get ,class: "dropdown-item" %>
-              <%= link_to "My provider schedule", "/provider_calendar", :method => :get ,class: "dropdown-item" %>
+              <%= link_to "My Save List", savelist_path(current_user.savelist), :method => :get, class: "dropdown-item" %>
+              <%= link_to "Account Setting", "/payment_method", :method => :get ,class: "dropdown-item" %>
+              <%= link_to "My Provider Schedule", "/provider_calendar", :method => :get ,class: "dropdown-item" %>
               <%= link_to "Add a Service", new_service_path, class: "dropdown-item" %>
               <%= link_to "Logout", destroy_user_session_path, :method => :delete, class: "dropdown-item" %>
             </div>

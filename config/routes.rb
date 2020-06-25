@@ -9,8 +9,13 @@ Rails.application.routes.draw do
 
   resources :services
 
+  resources :services, only: [:index] do
+    resources :savelistspointers, only: [:create, :destroy]
+  end
+
   resources :services, only: [:show] do
     resources :bookings, only: [:new, :create]
+    resources :savelistspointers, only: [:create, :destroy]
   end
 
   resources :bookings, only: [:index, :show, :destroy, :edit, :update]
@@ -43,4 +48,6 @@ Rails.application.routes.draw do
   get '/provider_calendar' => "calendars#index"
   # get '/tagged', to: "services#tagged", as: :tagged
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  resources :savelists, only: [:show]
 end
