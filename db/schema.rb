@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_21_044400) do
+ActiveRecord::Schema.define(version: 2020_06_25_075920) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,6 +91,22 @@ ActiveRecord::Schema.define(version: 2020_06_21_044400) do
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
+  create_table "savelists", force: :cascade do |t|
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_savelists_on_user_id"
+  end
+
+  create_table "savelistspointers", force: :cascade do |t|
+    t.bigint "savelist_id"
+    t.bigint "service_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["savelist_id"], name: "index_savelistspointers_on_savelist_id"
+    t.index ["service_id"], name: "index_savelistspointers_on_service_id"
+  end
+
   create_table "services", force: :cascade do |t|
     t.integer "rate"
     t.string "location"
@@ -163,6 +179,9 @@ ActiveRecord::Schema.define(version: 2020_06_21_044400) do
   add_foreign_key "notifications", "users"
   add_foreign_key "reviews", "services"
   add_foreign_key "reviews", "users"
+  add_foreign_key "savelists", "users"
+  add_foreign_key "savelistspointers", "savelists"
+  add_foreign_key "savelistspointers", "services"
   add_foreign_key "services", "users"
   add_foreign_key "taggings", "tags"
 end

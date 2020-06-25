@@ -1,0 +1,10 @@
+      <div class="d-flex flex-wrap">
+        <% @services_in_savelist.each do |service| %>
+            <div class="card-course">
+              <%= render 'shared/card', service: service %>
+            </div>
+        <% end %>
+        <%if @services_in_savelist.empty? %>
+            <P>You haven't added any service to your save list</p>
+        <%end%>
+      </div>

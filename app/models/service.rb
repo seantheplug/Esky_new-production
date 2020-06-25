@@ -2,6 +2,7 @@ class Service < ApplicationRecord
     has_many :reviews
     has_many :bookings
     belongs_to :user
+    has_many :savelistspointers, dependent: :destroy
     geocoded_by :location
     has_one_attached :photo
     # stmatch 
