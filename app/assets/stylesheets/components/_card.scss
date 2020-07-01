@@ -42,9 +42,13 @@
       display: flex;
       a {
         flex: 1;
-        white-space: nowrap;
+        line-height: 1.5rem;
+        max-height: 3rem;
         overflow: hidden;
-        text-overflow: ellipsis;
+        display: -webkit-box;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
       }
     }
 

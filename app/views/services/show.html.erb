@@ -5,7 +5,7 @@
   <% else %>
     <div class="banner secondary" style="background-image: linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.6)), url(<%= image_url("placeholder.jpg") %>);">
   <% end %>
-      <h1 class="mb-2"><%= @service.name %></h1>
+      <h1 class="mb-2 px-4"><%= @service.name %></h1>
       <div class="rating h5">          
         <%if !@service.rating.nil?%> 
           <% @service.rating.to_i.times do %>
@@ -20,7 +20,32 @@
 
   <div class="row py-4 border-bottom">
     <div class="col-lg-8 col-md-12">
-      <h2 class="mb-3 h4">About this service</h2>
+      <div class="d-flex justify-content-between">
+        <h2 class="mb-3 h4">About this service</h2>
+        <%if user_signed_in?%>
+          <div style = "display:none" >
+            <p id="service_id"><%= @service.id %></p>
+          </div>
+          <%if current_user.savelist.savelistspointers.empty? == false %>
+            <div style = "display:none">
+              <p id="savelistspointer_id"><%= current_user.savelist.savelistspointers.where("service_id = #{@service.id}").first.id %></p>
+            </div>
+          <%end%>
+          <div id="save_list_btn">
+            <%if @service.user != current_user %>
+              <%if (current_user.savelist.savelistspointers.empty? == true or current_user.savelist.savelistspointers.where("service_id = #{@service.id}").nil? ) %>
+                <button type="button" class="btn" id="create-savelistspointers" onclick = "clicklikebutton(event)">
+                  <i class="fa fa-bookmark text-muted"></i>
+                </button>
+              <%else%>
+                <button type="button" class="btn" id="destroy-savelistspointers" onclick = "clickdeletebutton(event)">
+                  <i class="fa fa-bookmark text-warning"></i>
+                </button>
+              <%end%>
+            <%end%>
+          </div>
+        <%end%>
+      </div>
       <p class="description mt-3 pb-4 border-bottom"><%= @service.description %></p>
       <h2 class="h4 mt-4 mb-3">Location</h2>
       <div class="pb-4 border-bottom">
@@ -76,8 +101,8 @@
         </div>
         <span class="ml-2 text-dark"><%= @service_provider.first_name + ' ' + @service_provider.last_name %></span>
       <% end %>
-      <small class="text-center d-block my-3">Need more information about this service?</small>
       <% if current_user && current_user != @service_provider %>
+        <small class="text-center d-block my-3">Need more information about this service?</small>
         <%= link_to conversations_path(sender_id: current_user.id, recipient_id: @service_provider.id), method: :post, class: "btn btn-outline-primary btn-block" do %>
           <i class="fa fa-paper-plane mr-2"></i>
           <%= 'Contact '+@service_provider.first_name %>
@@ -91,80 +116,54 @@
         <div class="px-3 pt-1 pb-3 border">
           <div class="d-flex align-items-center mt-3 justify-content-center">
             <small class="text-uppercase mr-2">Starting from</small>
-            <h3 class="h4 mb-0">¥<%= @service.rate %>/hr</h3>
+            <h3 class="h4 mb-0">$<%= @service.rate %></h3>
           </div>
           <%= render './bookings/form' %>
         </div>
       </div>
     <% else %>
       <div class="edit-options">
-        <%= link_to edit_service_path(@service) do %>
-          <i class="fas fa-edit edit"></i>
+        <%= link_to edit_service_path(@service), class: "btn btn-outline-primary btn-block" do %>
+          <i class="fas fa-edit edit mr-1"></i> Edit service
         <% end %>
       </div>
     <% end %>
-    <%if user_signed_in?%>
-      <div style = "display:none" >
-        <p id="service_id"><%= @service.id %></p>
-      </div>
-      <%if current_user.savelist.savelistspointers.empty? == false %>
-        <div style = "display:none">
-          <p id="savelistspointer_id"><%= current_user.savelist.savelistspointers.where("service_id = #{@service.id}").first.id %></p>
-        </div>
-      <%end%>
-      <div id="save_list_btn">
-        <%if @service.user != current_user %>
-          <%if (current_user.savelist.savelistspointers.empty? == true or current_user.savelist.savelistspointers.where("service_id = #{@service.id}").nil? ) %>
-            <button type="button" class = "btn btn-primary" id="create-savelistspointers" onclick = "clicklikebutton(event)">add to save list</button>
-          <%else%>
-            <button type="button" class = "btn btn-primary" id="destroy-savelistspointers" onclick = "clickdeletebutton(event)">remove from save list</button>
-          <%end%>
-        <%end%>
-      </div>
-    <%end%>
     <script>
-        function clicklikebutton(event) {
-        event.preventDefault();
-        $.ajax({
-          url: "/services/"+document.getElementById("service_id").innerHTML+"/savelistspointers/",
-          method: "POST",
-          data: { service_id: document.getElementById("service_id").innerHTML },
-          success: function() {
-            console.log("successful")
-            document.getElementById("save_list_btn").removeChild(document.getElementById("create-savelistspointers"))
-            var node = document.createElement("button");
-            var textnode = document.createTextNode("remove from save list");
-            node.appendChild(textnode);
-            node.classList.add("btn");
-            node.classList.add("btn-primary");
-            node.setAttribute("id", "destroy-savelistspointers");
-            node.setAttribute("onclick", "clickdeletebutton(event)");
-            document.getElementById("save_list_btn").appendChild(node);
-          }
-        });
-      };
-      function clickdeletebutton(event) {
-        event.preventDefault();
-        $.ajax({
-          url: "/services/"+document.getElementById("service_id").innerHTML+"/savelistspointers/"+document.getElementById("savelistspointer_id").innerHTML,
-          method: "DELETE",
-          data: { service_id: document.getElementById("service_id").innerHTML },
-          success: function() {
-            console.log("successful")
-            document.getElementById("save_list_btn").removeChild(document.getElementById("destroy-savelistspointers"))
-            var node = document.createElement("button");
-            var textnode = document.createTextNode("add to save list");
-            node.appendChild(textnode);
-            node.classList.add("btn");
-            node.classList.add("btn-primary");
-            node.setAttribute("id", "create-savelistspointers");
-            node.setAttribute("onclick", "clicklikebutton(event)");
-            document.getElementById("save_list_btn").appendChild(node);
-          }
-        });
-      };
+    function clicklikebutton(event) {
+      event.preventDefault();
+      $.ajax({
+        url: "/services/"+document.getElementById("service_id").innerHTML+"/savelistspointers/",
+        method: "POST",
+        data: { service_id: document.getElementById("service_id").innerHTML },
+        success: function() {
+          const container = document.getElementById("save_list_btn");
+          const button = document.getElementById("create-savelistspointers");
+          const html = `<button type="button" class="btn" id="destroy-savelistspointers" onclick = "clickdeletebutton(event)">
+                          <i class="fa fa-bookmark text-warning"></i>
+                        </button>`
+          container.removeChild(button);
+          container.insertAdjacentHTML('afterbegin', html);
+        }
+      });
+    };
+    function clickdeletebutton(event) {
+      event.preventDefault();
+      $.ajax({
+        url: "/services/"+document.getElementById("service_id").innerHTML+"/savelistspointers/"+document.getElementById("savelistspointer_id").innerHTML,
+        method: "DELETE",
+        data: { service_id: document.getElementById("service_id").innerHTML },
+        success: function() {
+          const container = document.getElementById("save_list_btn");
+          const button = document.getElementById("destroy-savelistspointers");
+          const html = `<button type="button" class="btn" id="create-savelistspointers" onclick = "clicklikebutton(event)">
+                          <i class="fa fa-bookmark text-muted"></i>
+                        </button>`
+          container.removeChild(button);
+          container.insertAdjacentHTML('afterbegin', html);
+        }
+      });
+    };
     </script>
-    </div>
   </div>
   <h2 class="mt-5">Related Services</h2>
   <div class="d-flex flex-wrap">

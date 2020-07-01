@@ -1,4 +1,5 @@
 #chat {
+    height: 100vh;
     display: flex;
     flex-direction: column-reverse;
     max-height: calc(100vh - #{$header-height} - 2em - 120px);

@@ -1,6 +1,11 @@
-<%= cl_image_tag booking.service.photo.key, height: 300, width: 1200, crop: :fill %>
+<% if booking.service.photo.attached? %>
+  <%= cl_image_tag booking.service.photo.key, height: 300, width: 1200, crop: :fill %>
+<% else %>
+  <%= image_tag("placeholder.jpg") %>
+<% end %>
+
 <div class="card-course-infos booking-card">
-  <h2 class="h5">
+  <h2 class="card-course-title h5">
     <%= link_to booking_path(booking) do %>
       <%= booking.service.name %>
     <% end %>
@@ -26,11 +31,22 @@
     </p>
     <p><strong>Date</strong> <%= booking.date.strftime("%A %d %b %Y") %></p>
     <p><strong>Location</strong> <%= booking.service.location %></p>
-    <p class="text-center pt-2">
+    <p class="text-center pt-2 d-block mb-4">
       Notes to provider
       <br>
       <%= booking.personalize_description %>
     </p>
+    <% if current_user == booking.user %>
+      <%= link_to conversations_path(sender_id: current_user.id, recipient_id: booking.service.user.id), method: :post, class: "btn btn-outline-primary btn-block" do %>
+        <i class="fa fa-paper-plane mr-2"></i>
+        <%= 'Contact ' + booking.service.user.first_name %>
+      <% end %>
+    <% else %>
+      <%= link_to conversations_path(sender_id: current_user.id, recipient_id: booking.user.id), method: :post, class: "btn btn-outline-primary btn-block" do %>
+        <i class="fa fa-paper-plane mr-2"></i>
+        <%= 'Contact ' + booking.user.first_name %>
+      <% end %>
+    <% end %>
   </div>
 </div>
 
