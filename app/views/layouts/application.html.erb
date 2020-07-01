@@ -12,7 +12,7 @@
     <%= action_cable_meta_tag %>
   </head>
   <body>
-    <% unless current_page?(new_user_session_path) || current_page?(new_user_registration_path) %>
+    <% unless current_page?(new_user_session_path) || current_page?(new_user_registration_path) || current_page?(new_user_confirmation_path) %>
       <%= render 'shared/navbar' %>
     <% end %>
     <%= render 'shared/flashes' %>

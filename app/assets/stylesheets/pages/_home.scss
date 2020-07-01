@@ -74,7 +74,6 @@
 .category-small-box h4 {
     font-size: 2em;
 	color: $white;
-	opacity: 0;
     transition: ease-in all 0.4s;
 }
 
@@ -84,11 +83,6 @@
 	position: absolute;
 	top: .6em;
 	right: .6em;
-}
-
-.category-small-box:hover h4 {
-	opacity: 1;
-	color: $white; 
 }
 
 /* Media Queries For Small Category Boxes */

@@ -24,8 +24,14 @@
     }
   }
 
-  .card-course-title > h2 {
-    max-width: 100%;
+  .card-course-title a {
+    line-height: 1.5rem;
+    max-height: 3rem;
+    overflow: hidden;
+    display: -webkit-box;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
   }
 }
 

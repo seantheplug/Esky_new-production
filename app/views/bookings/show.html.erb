@@ -1,13 +1,26 @@
-<div class="container profile py-5">
+<div class="container profile p-3 p-sm-5">
   <div class="booking-heading">
-    <i class="fas fa-check progress-circle"></i>
-    <h1>Your booking for <%= @service.name %></h1>
+    <i class="fas fa-check text-success"></i>
+    <h1 class="h2 my-4">Your booking for <br><%= @service.name %></h1>
   </div>
 
-  <div class="row mt-4">
+  <div class="row my-4">
     <div class="col-lg-6 col-md-12">
       <div class="booking-info">
         <h3>Booking Details</h3>
+        <div class="my-3">
+          <% if current_user == @booking.user %>
+            <%= link_to conversations_path(sender_id: current_user.id, recipient_id: @booking.service.user.id), method: :post, class: "btn btn-outline-primary btn-block" do %>
+              <i class="fa fa-paper-plane mr-2"></i>
+              <%= 'Contact ' + @booking.service.user.first_name %>
+            <% end %>
+          <% else %>
+            <%= link_to conversations_path(sender_id: current_user.id, recipient_id: @booking.user.id), method: :post, class: "btn btn-outline-primary btn-block" do %>
+              <i class="fa fa-paper-plane mr-2"></i>
+              <%= 'Contact ' + @booking.user.first_name %>
+            <% end %>
+          <% end %>
+        </div>
         <p><strong>Client</strong> <%= @booking.user.first_name %> <%= @booking.user.last_name %></p>
         <p><strong>Service</strong> <%= @booking.service.name %></p>
         <p><strong>Service Provider</strong> <%= @booking.service.user.first_name %> <%= @booking.service.user.last_name %></p>
@@ -21,7 +34,7 @@
       <div
         id="map"
         style="width: 100%;
-        height: 400px;"
+        height: 420px;"
         data-markers="<%= @marker.to_json %>"
         data-mapbox-api-key="<%= ENV['MAPBOX_API_KEY'] %>"
       ></div>

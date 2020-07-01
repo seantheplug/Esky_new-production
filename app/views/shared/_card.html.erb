@@ -39,27 +39,36 @@
   <p class="card-course-description">
     <%= service.description %>
   </p>
-  <span class="d-block text-right text-muted font-weight-bold">¥<%= service.rate %>/hr</span>
-  <small class="d-block text-right text-muted"><%= service.created_at.strftime('%e %b') %></small>
-  <%if user_signed_in?%>
-    <div style = "display:none" >
-      <p id="service_id"><%= service.id %></p>
-    </div>
-    <%if current_user.savelist.savelistspointers.empty? == false %>
-      <div style = "display:none">
-        <p id="savelistspointer_id"><%= current_user.savelist.savelistspointers.where("service_id = #{service.id}").first.id %></p>
+  <div class="d-flex justify-content-between align-items-center">
+    <%if user_signed_in?%>
+      <div style = "display:none" >
+        <p id="service_id"><%= service.id %></p>
+      </div>
+      <%if current_user.savelist.savelistspointers.empty? == false %>
+        <div style = "display:none">
+          <p id="savelistspointer_id"><%= current_user.savelist.savelistspointers.where("service_id = #{service.id}").first.id %></p>
+        </div>
+      <%end%>
+      <div id="save_list_btn">
+        <%if service.user != current_user %>
+          <%if (current_user.savelist.savelistspointers.empty? == true or current_user.savelist.savelistspointers.where("service_id = #{service.id}").nil? ) %>
+            <button type="button" class="btn" id="create-savelistspointers" onclick = "clicklikebutton(event)">
+              <i class="fa fa-bookmark text-muted"></i>
+            </button>
+          <%else%>
+            <button type="button" class="btn" id="destroy-savelistspointers" onclick = "clickdeletebutton(event)">
+              <i class="fa fa-bookmark text-warning"></i>
+            </button>
+          <%end%>
+        <%end%>
       </div>
     <%end%>
-    <div id="save_list_btn">
-      <%if service.user != current_user %>
-        <%if (current_user.savelist.savelistspointers.empty? == true or current_user.savelist.savelistspointers.where("service_id = #{service.id}").nil? ) %>
-          <button type="button" class = "btn btn-primary" id="create-savelistspointers" onclick = "clicklikebutton(event)">add to save list</button>
-        <%else%>
-          <button type="button" class = "btn btn-primary" id="destroy-savelistspointers" onclick = "clickdeletebutton(event)">remove from save list</button>
-        <%end%>
-      <%end%>
-    </div>
-  <%end%>
+    <span class="d-block text-right text-muted font-weight-bold">
+      <small class="text-uppercase">Starting from</small><br>
+      $<%= service.rate %>
+    </span>
+  </div>
+  <small class="d-block text-center text-muted">Posted <%= service.created_at.strftime('%e %b') %></small>
   <script>
       function clicklikebutton(event) {
       event.preventDefault();
@@ -68,16 +77,13 @@
         method: "POST",
         data: { service_id: document.getElementById("service_id").innerHTML },
         success: function() {
-          console.log("successful")
-          document.getElementById("save_list_btn").removeChild(document.getElementById("create-savelistspointers"))
-          var node = document.createElement("button");
-          var textnode = document.createTextNode("remove from save list");
-          node.appendChild(textnode);
-          node.classList.add("btn");
-          node.classList.add("btn-primary");
-          node.setAttribute("id", "destroy-savelistspointers");
-          node.setAttribute("onclick", "clickdeletebutton(event)");
-          document.getElementById("save_list_btn").appendChild(node);
+          const container = document.getElementById("save_list_btn");
+          const button = document.getElementById("create-savelistspointers");
+          const html = `<button type="button" class="btn" id="destroy-savelistspointers" onclick = "clickdeletebutton(event)">
+                          <i class="fa fa-bookmark text-warning"></i>
+                        </button>`
+          container.removeChild(button);
+          container.insertAdjacentHTML('afterbegin', html);
         }
       });
     };
@@ -88,16 +94,13 @@
         method: "DELETE",
         data: { service_id: document.getElementById("service_id").innerHTML },
         success: function() {
-          console.log("successful")
-          document.getElementById("save_list_btn").removeChild(document.getElementById("destroy-savelistspointers"))
-          var node = document.createElement("button");
-          var textnode = document.createTextNode("add to save list");
-          node.appendChild(textnode);
-          node.classList.add("btn");
-          node.classList.add("btn-primary");
-          node.setAttribute("id", "create-savelistspointers");
-          node.setAttribute("onclick", "clicklikebutton(event)");
-          document.getElementById("save_list_btn").appendChild(node);
+          const container = document.getElementById("save_list_btn");
+          const button = document.getElementById("destroy-savelistspointers");
+          const html = `<button type="button" class="btn" id="create-savelistspointers" onclick = "clicklikebutton(event)">
+                          <i class="fa fa-bookmark text-muted"></i>
+                        </button>`
+          container.removeChild(button);
+          container.insertAdjacentHTML('afterbegin', html);
         }
       });
     };
