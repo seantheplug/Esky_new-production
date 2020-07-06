@@ -3,13 +3,13 @@
     Let's Add a Service
   </h1>
    <%= simple_form_for @service do |f| %>
-    <%= f.input :name, placeholder: "What is the service name?"%>
+    <%= f.input :name, input_html: { required: true }, placeholder: "What is the service name?"%>
     <%= f.input :description,as: :text, placeholder: "Enter service description." %>
     <%= f.input :location, placeholder: "Where would you like to provide the service?" %>
     <%= f.input :rate, placeholder: "Flat rate in USD" %>
     <%= f.input :service_type_list, collection: $service_type %>
     <%= f.input :country_list, collection: $country %>
-    <%= f.input :photo, as: :file %>
+    <%= f.input :photo, input_html: { required: true }, as: :file %>
     <div class="d-flex justify-content-between m-2 mt-4">
     <%= link_to "Return Home", root_path, class:"btn btn-outline-primary" %>
     <%= f.button :submit, class:"btn btn-primary"%>

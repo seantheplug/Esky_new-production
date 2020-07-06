@@ -77,12 +77,15 @@
         url: "/services/"+document.getElementById(`service_id_${service_id}`).innerHTML+"/savelistspointers/",
         method: "POST",
         data: { service_id: document.getElementById(`service_id_${service_id}`).innerHTML },
-        success: function() {
+        dataType: "json",
+        success: function(data){
+          console.log(data)
           const container = document.getElementById(`save_list_btn_${service_id}`);
           const button = document.getElementById(`create-savelistspointers_${service_id}`);
-          const html = `<button type="button" class="btn" id="destroy-savelistspointers_${service_id}" onclick = "clickdeletebutton(event)">
+          const html = `<button type="button" class="btn" id="destroy-savelistspointers_${service_id}" onclick = "clickdeletebutton(event, ${service_id})">
                           <i class="fa fa-bookmark text-warning"></i>
-                        </button>`
+                        </button>
+                        <p id="savelistspointer_id_${service_id}" style = "display:none">${data["id"]}</p>`
           container.removeChild(button);
           container.insertAdjacentHTML('afterbegin', html);
         }
@@ -97,8 +100,9 @@
         data: { service_id: document.getElementById(`service_id_${service_id}`).innerHTML },
         success: function() {
           const container = document.getElementById(`save_list_btn_${service_id}`);
+          document.getElementById(`savelistspointer_id_${service_id}`).remove();
           const button = document.getElementById(`destroy-savelistspointers_${service_id}`);
-          const html = `<button type="button" class="btn" id="create-savelistspointers_${service_id}" onclick = "clicklikebutton(event)">
+          const html = `<button type="button" class="btn" id="create-savelistspointers_${service_id}" onclick = "clicklikebutton(event, ${service_id})">
                           <i class="fa fa-bookmark text-muted"></i>
                         </button>`
           container.removeChild(button);

@@ -24,21 +24,21 @@
         <h2 class="mb-3 h4">About this service</h2>
         <%if user_signed_in?%>
           <div style = "display:none" >
-            <p id="service_id"><%= @service.id %></p>
+            <p id="service_id_<%=@service.id%>"><%= @service.id %></p>
           </div>
-          <%if current_user.savelist.savelistspointers.empty? == false %>
+          <%if current_user.savelist.savelistspointers.where("service_id = #{@service.id}").empty? == false %>
             <div style = "display:none">
-              <p id="savelistspointer_id"><%= current_user.savelist.savelistspointers.where("service_id = #{@service.id}").first.id %></p>
+              <p id="savelistspointer_id_<%=@service.id%>"><%= current_user.savelist.savelistspointers.where("service_id = #{@service.id}").first.id %></p>
             </div>
           <%end%>
-          <div id="save_list_btn">
+          <div id="save_list_btn_<%=@service.id%>">
             <%if @service.user != current_user %>
-              <%if (current_user.savelist.savelistspointers.empty? == true or current_user.savelist.savelistspointers.where("service_id = #{@service.id}").nil? ) %>
-                <button type="button" class="btn" id="create-savelistspointers" onclick = "clicklikebutton(event)">
+              <%if (current_user.savelist.savelistspointers.empty? == true or current_user.savelist.savelistspointers.where("service_id = #{@service.id}").empty? == true) %>
+                <button type="button" class="btn" id="create-savelistspointers_<%=@service.id%>" onclick = "clicklikebutton(event, <%= @service.id %>)">
                   <i class="fa fa-bookmark text-muted"></i>
                 </button>
-              <%else%>
-                <button type="button" class="btn" id="destroy-savelistspointers" onclick = "clickdeletebutton(event)">
+              <%elsif current_user.savelist.savelistspointers.where("service_id = #{@service.id}").empty? == false %>
+                <button type="button" class="btn" id="destroy-savelistspointers_<%=@service.id%>" onclick = "clickdeletebutton(event, <%= @service.id %>)">
                   <i class="fa fa-bookmark text-warning"></i>
                 </button>
               <%end%>
@@ -129,33 +129,39 @@
       </div>
     <% end %>
     <script>
-    function clicklikebutton(event) {
+      function clicklikebutton(event, service_id) {
+      console.log(service_id)
       event.preventDefault();
       $.ajax({
-        url: "/services/"+document.getElementById("service_id").innerHTML+"/savelistspointers/",
+        url: "/services/"+document.getElementById(`service_id_${service_id}`).innerHTML+"/savelistspointers/",
         method: "POST",
-        data: { service_id: document.getElementById("service_id").innerHTML },
-        success: function() {
-          const container = document.getElementById("save_list_btn");
-          const button = document.getElementById("create-savelistspointers");
-          const html = `<button type="button" class="btn" id="destroy-savelistspointers" onclick = "clickdeletebutton(event)">
+        data: { service_id: document.getElementById(`service_id_${service_id}`).innerHTML },
+        dataType: "json",
+        success: function(data){
+          console.log(data)
+          const container = document.getElementById(`save_list_btn_${service_id}`);
+          const button = document.getElementById(`create-savelistspointers_${service_id}`);
+          const html = `<button type="button" class="btn" id="destroy-savelistspointers_${service_id}" onclick = "clickdeletebutton(event, ${service_id})">
                           <i class="fa fa-bookmark text-warning"></i>
-                        </button>`
+                        </button>
+                        <p id="savelistspointer_id_${service_id}" style = "display:none">${data["id"]}</p>`
           container.removeChild(button);
           container.insertAdjacentHTML('afterbegin', html);
         }
       });
     };
-    function clickdeletebutton(event) {
+    function clickdeletebutton(event, service_id) {
+      console.log(service_id)
       event.preventDefault();
       $.ajax({
-        url: "/services/"+document.getElementById("service_id").innerHTML+"/savelistspointers/"+document.getElementById("savelistspointer_id").innerHTML,
+        url: "/services/"+document.getElementById(`service_id_${service_id}`).innerHTML+"/savelistspointers/"+document.getElementById(`savelistspointer_id_${service_id}`).innerHTML,
         method: "DELETE",
-        data: { service_id: document.getElementById("service_id").innerHTML },
+        data: { service_id: document.getElementById(`service_id_${service_id}`).innerHTML },
         success: function() {
-          const container = document.getElementById("save_list_btn");
-          const button = document.getElementById("destroy-savelistspointers");
-          const html = `<button type="button" class="btn" id="create-savelistspointers" onclick = "clicklikebutton(event)">
+          const container = document.getElementById(`save_list_btn_${service_id}`);
+          document.getElementById(`savelistspointer_id_${service_id}`).remove();
+          const button = document.getElementById(`destroy-savelistspointers_${service_id}`);
+          const html = `<button type="button" class="btn" id="create-savelistspointers_${service_id}" onclick = "clicklikebutton(event, ${service_id})">
                           <i class="fa fa-bookmark text-muted"></i>
                         </button>`
           container.removeChild(button);

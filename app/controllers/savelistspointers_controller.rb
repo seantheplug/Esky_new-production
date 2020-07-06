@@ -6,7 +6,7 @@ class SavelistspointersController < ApplicationController
         puts "current user savelist id #{current_user.savelist.id}"
         @savelistspointer = Savelistspointer.create!(savelist_id: current_user.savelist.id, service_id: params["service_id"].to_i)
         skip_authorization
-        head :ok
+        render :json => { :id => @savelistspointer.id } 
     end
 
     def destroy
