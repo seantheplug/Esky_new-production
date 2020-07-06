@@ -44,12 +44,12 @@
       <div style = "display:none" >
         <p id="service_id"><%= service.id %></p>
       </div>
-      <%if current_user.savelist.savelistspointers.empty? == false %>
+      <%if current_user.savelist.savelistspointers.where("service_id = #{service.id}").empty? == false %>
         <div style = "display:none">
           <p id="savelistspointer_id"><%= current_user.savelist.savelistspointers.where("service_id = #{service.id}").first.id %></p>
         </div>
       <%end%>
-      <div id="save_list_btn">
+      <div id="save_list_btn_<%=service.id%>">
         <%if service.user != current_user %>
           <%if (current_user.savelist.savelistspointers.empty? == true or current_user.savelist.savelistspointers.where("service_id = #{service.id}").nil? ) %>
             <button type="button" class="btn" id="create-savelistspointers" onclick = "clicklikebutton(event)">
@@ -77,7 +77,7 @@
         method: "POST",
         data: { service_id: document.getElementById("service_id").innerHTML },
         success: function() {
-          const container = document.getElementById("save_list_btn");
+          const container = document.getElementById("save_list_btn_<%=service.id%>");
           const button = document.getElementById("create-savelistspointers");
           const html = `<button type="button" class="btn" id="destroy-savelistspointers" onclick = "clickdeletebutton(event)">
                           <i class="fa fa-bookmark text-warning"></i>
@@ -94,7 +94,7 @@
         method: "DELETE",
         data: { service_id: document.getElementById("service_id").innerHTML },
         success: function() {
-          const container = document.getElementById("save_list_btn");
+          const container = document.getElementById("save_list_btn_<%=service.id%>");
           const button = document.getElementById("destroy-savelistspointers");
           const html = `<button type="button" class="btn" id="create-savelistspointers" onclick = "clicklikebutton(event)">
                           <i class="fa fa-bookmark text-muted"></i>
