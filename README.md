@@ -23,7 +23,7 @@ As general user
   - You can contact each other through instant private message. (ActionCable)
   ![Alt text](app/assets/images/message_example.png?raw=true "Title")
   - recieve instant notification when someone messages you or confirm your booking. (ActionCable)
-  ![Alt text](app/assets/images/notification_example.png | width=400)
+  ![Alt text](app/assets/images/notification_example.png?raw=true "Title")
   ![Alt text](app/assets/images/notifications_view.png?raw=true "Title")
   
 As Service Provider
