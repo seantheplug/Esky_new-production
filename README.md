@@ -47,6 +47,8 @@ As Customer
   ![Alt text](app/assets/images/customer_booking.png?raw=true "Title")#
  
 
+ 
+
 
 
 
